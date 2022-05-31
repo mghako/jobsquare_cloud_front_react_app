@@ -1,3 +1,5 @@
+import React from "react"
+
 const Post = (props) => {
     return (
         <div className="card w-3/4 shadow-xl bg-base-300 mx-auto">

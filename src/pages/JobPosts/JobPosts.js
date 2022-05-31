@@ -1,3 +1,4 @@
+import React from "react"
 import Api from "../../API/v1/Api"
 import { useEffect, useState } from "react"
 import Post from "../../components/job/Post"
