@@ -1,15 +1,46 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { getPosts } from "../../redux/api/postsAPI"
 import Post from "../job/Post"
 
-const Posts = (props) => {
-    return (
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {
-                props.posts.data.map( (post) => {
-                    return <Post key={post.id} title={post.title} content={post.content} />
-                })
+const Posts = () => {
+    const posts = useSelector(state => state.posts.posts)
+    const dispatch = useDispatch()
+    const [loading, setLoading] = useState(true)
+
+    useEffect( () => {
+        let mounted = true
+        
+        const fetchJobPosts = () => {
+            if(mounted == true) {
+                setLoading(false)
+                getPosts(dispatch)
             }
-            
+        }
+        
+        fetchJobPosts()
+
+        return () => { 
+            mounted = false
+        }
+        
+    },[])
+
+    if(posts) {
+        return (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {
+                    posts.data.map( (post) => {
+                        return <Post key={post.id} title={post.title} content={post.content} />
+                    })
+                }
+                
+            </div>
+        )    
+    }
+    return (
+        <div className="py-10 relative h-auto">
+            <progress className="progress w-50 mx-auto absolute inset-0 top-1/2 align-middle" value="50" max="100"></progress>
         </div>
     )
 }
