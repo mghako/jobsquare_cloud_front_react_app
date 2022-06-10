@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const postsSlice = createSlice({
+export const postsSlice = createSlice({
     name: 'posts',
     initialState: {
         loading: false,
@@ -9,7 +9,7 @@ const postsSlice = createSlice({
         error: false
     },
     reducers: {
-        postsLoading: (state, action) => {
+        postsLoading: (state) => {
             state.loading = true
         },
         postsRecieved: (state, action) => {
@@ -21,7 +21,13 @@ const postsSlice = createSlice({
             state.error = true
             state.loading = false
         }
-    }
+    },
+    // extraReducers: {
+    //     [postsLoading]: (state) => {
+    //         return state.loading = true
+    //     },
+    //     [postsRecieved]
+    // }
 })
 
 export const { postsLoading, postsRecieved, postError } = postsSlice.actions

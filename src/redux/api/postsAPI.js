@@ -11,3 +11,14 @@ export const getPosts = async (dispatch) => {
     }
       
 }
+
+
+export const getPostsByPage = (payload) => async (dispatch) => {
+    dispatch(postsLoading())
+    try {
+        const response = await Api.get(`posts?page=${payload.page}`)
+        dispatch(postsRecieved(response.data))
+    } catch (error) {
+        dispatch(postError())
+    }
+}

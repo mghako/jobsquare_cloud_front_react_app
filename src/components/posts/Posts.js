@@ -2,18 +2,19 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getPosts } from "../../redux/api/postsAPI"
 import Post from "../job/Post"
+import PostsPagination from "./PostsPagination"
 
 const Posts = () => {
     const posts = useSelector(state => state.posts.posts)
     const dispatch = useDispatch()
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     useEffect( () => {
         let mounted = true
         
         const fetchJobPosts = () => {
-            if(mounted == true) {
-                setLoading(false)
+            if(mounted === true) {
+                setLoading(true)
                 getPosts(dispatch)
             }
         }
@@ -24,18 +25,21 @@ const Posts = () => {
             mounted = false
         }
         
-    },[])
+    },[dispatch])
 
     if(posts) {
         return (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {
-                    posts.data.map( (post) => {
-                        return <Post key={post.id} title={post.title} content={post.content} />
-                    })
-                }
-                
-            </div>
+            <>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    {
+                        posts.data.map( (post) => {
+                            return <Post key={post.id} title={post.title} content={post.content} />
+                        })
+                    }
+                    
+                </div>
+                <PostsPagination data={posts}/>
+            </>
         )    
     }
     return (
